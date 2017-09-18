@@ -1,4 +1,4 @@
-package net.chibidevteam.semver;
+package net.chibidevteam.semver.serialization;
 
 import static net.chibidevteam.semver.Constants.DELIMITER_META;
 import static net.chibidevteam.semver.Constants.DELIMITER_PRE_RELEASE;
@@ -14,66 +14,68 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import lombok.extern.slf4j.Slf4j;
+import net.chibidevteam.semver.Version;
+import net.chibidevteam.semver.SemverHelper;
 import net.chibidevteam.semver.exceptions.MalformedVersionException;
 
 @Slf4j
 public class VersionHelperTest {
 
     @Test
-    public void stringify() {
-        assertEquals("1", VersionHelper.serialize(1));
-        assertEquals("1.2", VersionHelper.serialize(1, 2));
-        assertEquals("1.2.5", VersionHelper.serialize(1, 2, 5));
-        assertEquals("1.2.5-RC2", VersionHelper.serialize(1, 2, 5, "RC2"));
-        assertEquals("1.2.5-RC2+sha256", VersionHelper.serialize(1, 2, 5, "RC2", "sha256"));
-        assertEquals("1.2.5-RC2+sha256.2017", VersionHelper.serialize(1, 2, 5, "RC2", "sha256", "2017"));
+    public void serialize() {
+        assertEquals("1", SemverHelper.serializeVersion(1));
+        assertEquals("1.2", SemverHelper.serializeVersion(1, 2));
+        assertEquals("1.2.5", SemverHelper.serializeVersion(1, 2, 5));
+        assertEquals("1.2.5-RC2", SemverHelper.serializeVersion(1, 2, 5, "RC2"));
+        assertEquals("1.2.5-RC2+sha256", SemverHelper.serializeVersion(1, 2, 5, "RC2", "sha256"));
+        assertEquals("1.2.5-RC2+sha256.2017", SemverHelper.serializeVersion(1, 2, 5, "RC2", "sha256", "2017"));
 
-        assertEquals(".2.5-RC2+sha256.2017", VersionHelper.serialize(null, 2, 5, "RC2", "sha256", "2017"));
-        assertEquals("1.2.5-RC2+.2017", VersionHelper.serialize(1, 2, 5, "RC2", null, "2017"));
-        assertEquals("-RC2+.2017", VersionHelper.serialize(null, null, null, "RC2", null, "2017"));
+        assertEquals(".2.5-RC2+sha256.2017", SemverHelper.serializeVersion(null, 2, 5, "RC2", "sha256", "2017"));
+        assertEquals("1.2.5-RC2+.2017", SemverHelper.serializeVersion(1, 2, 5, "RC2", null, "2017"));
+        assertEquals("-RC2+.2017", SemverHelper.serializeVersion(null, null, null, "RC2", null, "2017"));
     }
 
     @Test
-    public void build() {
-        testParse(1, 2, 5, "RC2", "sha256", "2017");
-        testParse(1, 2, null, "RC2", "sha256", "2017");
-        testParse(1);
-        testParse(1, 5);
-        testParse(1, 5, 9);
-        testParseFail(null, 2, 5, "alpha");
+    public void deserialize() {
+        deserialize(1, 2, 5, "RC2", "sha256", "2017");
+        deserialize(1, 2, null, "RC2", "sha256", "2017");
+        deserialize(1);
+        deserialize(1, 5);
+        deserialize(1, 5, 9);
+        deserializeFail(null, 2, 5, "alpha");
     }
 
-    private void testParseFail(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
+    private void deserializeFail(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
         String tested = getString(major, minor, patch, preRelease, meta);
 
         log.info("Testing failing version: {}", tested);
         try {
-            VersionHelper.deserialize(tested);
+            SemverHelper.deserializeVersion(tested);
         } catch (MalformedVersionException e) {
             log.info("[SUCCESS] Cannot build '" + tested + "': " + e.getMessage());
         }
     }
 
-    private void testParse(Integer major) {
-        testParse(major, null, null, null);
+    private void deserialize(Integer major) {
+        deserialize(major, null, null, null);
     }
 
-    private void testParse(Integer major, Integer minor) {
-        testParse(major, minor, null, null);
+    private void deserialize(Integer major, Integer minor) {
+        deserialize(major, minor, null, null);
     }
 
-    private void testParse(Integer major, Integer minor, Integer patch) {
-        testParse(major, minor, patch, null);
+    private void deserialize(Integer major, Integer minor, Integer patch) {
+        deserialize(major, minor, patch, null);
     }
 
-    private void testParse(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
+    private void deserialize(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
         Version expected = new Version(major, minor, patch, preRelease,
                 meta != null && meta.length > 0 ? Arrays.asList(meta) : null);
         String tested = getString(major, minor, patch, preRelease, meta);
 
         log.info("Testing version: {}", tested);
         try {
-            assertEquals(expected, VersionHelper.deserialize(tested));
+            assertEquals(expected, SemverHelper.deserializeVersion(tested));
         } catch (MalformedVersionException e) {
             fail("Cannot build '" + tested + "': " + e.getMessage());
         }

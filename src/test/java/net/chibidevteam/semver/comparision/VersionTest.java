@@ -1,4 +1,4 @@
-package net.chibidevteam.semver;
+package net.chibidevteam.semver.comparision;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -6,6 +6,8 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import lombok.extern.slf4j.Slf4j;
+import net.chibidevteam.semver.Version;
+import net.chibidevteam.semver.SemverHelper;
 import net.chibidevteam.semver.exceptions.MalformedVersionException;
 
 @Slf4j
@@ -15,9 +17,11 @@ public class VersionTest {
     public void compare() {
         checkGreaterThan("1.2", "1");
         checkGreaterThan("1.2.6", "1.2.6-alpha");
+        checkGreaterThan("1.2.6-RC1", "1.2.6-alpha");
 
         checkLowerThan("1", "1.2");
         checkLowerThan("1.0.0-alpha", "1.0.0-beta");
+        checkLowerThan("1.0.0-alpha", "1.0.0-BETA");
 
         checkSame("1.2", "1.2");
         checkSame("1.2+256", "1.2+2017");
@@ -25,8 +29,8 @@ public class VersionTest {
 
     private void checkGreaterThan(String v1Str, String v2Str) {
         try {
-            Version v1 = VersionHelper.deserialize(v1Str);
-            Version v2 = VersionHelper.deserialize(v2Str);
+            Version v1 = SemverHelper.deserializeVersion(v1Str);
+            Version v2 = SemverHelper.deserializeVersion(v2Str);
             assertTrue("Expect '" + v1Str + "' > '" + v2Str + "', should be '" + v1Str + "'.compareTo('" + v2Str
                     + "') > 0", v1.compareTo(v2) > 0);
         } catch (MalformedVersionException e) {
@@ -37,8 +41,8 @@ public class VersionTest {
 
     private void checkLowerThan(String v1Str, String v2Str) {
         try {
-            Version v1 = VersionHelper.deserialize(v1Str);
-            Version v2 = VersionHelper.deserialize(v2Str);
+            Version v1 = SemverHelper.deserializeVersion(v1Str);
+            Version v2 = SemverHelper.deserializeVersion(v2Str);
             assertTrue("Expect '" + v1Str + "' < '" + v2Str + "', should be '" + v1Str + "'.compareTo('" + v2Str
                     + "') < 0", v1.compareTo(v2) < 0);
         } catch (MalformedVersionException e) {
@@ -49,8 +53,8 @@ public class VersionTest {
 
     private void checkSame(String v1Str, String v2Str) {
         try {
-            Version v1 = VersionHelper.deserialize("1.2");
-            Version v2 = VersionHelper.deserialize("1.2");
+            Version v1 = SemverHelper.deserializeVersion("1.2");
+            Version v2 = SemverHelper.deserializeVersion("1.2");
             assertTrue("Expect '" + v1Str + "' ~= '" + v2Str + "', should be '" + v1Str + "'.compareTo('" + v2Str
                     + "') = 0", v1.compareTo(v2) == 0);
         } catch (MalformedVersionException e) {

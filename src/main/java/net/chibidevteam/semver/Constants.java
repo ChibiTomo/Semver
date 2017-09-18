@@ -3,7 +3,7 @@ package net.chibidevteam.semver;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
-class Constants {
+public class Constants {
 
     private Constants() {
     }

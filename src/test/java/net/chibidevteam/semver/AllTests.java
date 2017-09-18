@@ -4,8 +4,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Suite.class)
-@SuiteClasses({ VersionHelperTest.class, VersionTest.class })
-public class AllTests {
+import net.chibidevteam.semver.comparision.ComparisionTests;
+import net.chibidevteam.semver.serialization.SerializationTests;
 
+@RunWith(Suite.class)
+@SuiteClasses({ SerializationTests.class, ComparisionTests.class })
+public class AllTests {
 }

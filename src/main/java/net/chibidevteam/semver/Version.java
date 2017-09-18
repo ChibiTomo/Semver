@@ -6,6 +6,8 @@ import static net.chibidevteam.semver.Constants.STRING_COMPARATOR;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Value;
 
 @Value
@@ -18,7 +20,7 @@ public class Version implements Comparable<Version> {
     private List<String> meta;
 
     public Version(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
-        this(major, minor, patch, preRelease, Arrays.asList(meta));
+        this(major, minor, patch, preRelease, meta != null && meta.length > 0 ? Arrays.asList(meta) : null);
     }
 
     public Version(Integer major, Integer minor, Integer patch, String preRelease, List<String> meta) {
@@ -43,6 +45,10 @@ public class Version implements Comparable<Version> {
         if (result != 0) {
             return result;
         }
-        return STRING_COMPARATOR.compare(preRelease, v.preRelease);
+        if (preRelease == null || v.preRelease == null) {
+            return STRING_COMPARATOR.compare(preRelease, v.preRelease);
+        }
+        return STRING_COMPARATOR.compare(StringUtils.stripAccents(preRelease).toLowerCase(),
+                StringUtils.stripAccents(v.preRelease).toLowerCase());
     }
 }

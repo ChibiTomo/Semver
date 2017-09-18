@@ -1,4 +1,4 @@
-package net.chibidevteam.semver;
+package net.chibidevteam.semver.serialization;
 
 import static net.chibidevteam.semver.Constants.DELIMITER_META;
 import static net.chibidevteam.semver.Constants.DELIMITER_PRE_RELEASE;
@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-class Serializer {
+public class Serializer {
 
     private Serializer() {
     }

@@ -8,10 +8,10 @@ import java.util.Map;
 
 public enum ConstraintSign {
 
-    EQ("=", ""), NOT("!"), LT("<"), LTE("<="), GT(">"), GTE(">="), COMPATIBLE("^"), NEXT_SIGNIFICANT("~");
+    EQ("", "="), NOT("!"), LT("<"), LTE("<="), GT(">"), GTE(">="), COMPATIBLE("^"), NEXT_SIGNIFICANT("~");
 
     private static Map<String, ConstraintSign> map   = new HashMap<>();
-    private List<String>                   signs = new ArrayList<>();
+    private List<String>                       signs = new ArrayList<>();
 
     private ConstraintSign(String sign, String... signs) {
         this.signs.add(sign);

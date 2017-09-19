@@ -148,12 +148,26 @@ public class ConstraintHelperTest {
             assertTrue(ConstraintHelper.matches(">=1.2-RC1", "1.2-RC1"));
             assertTrue(!ConstraintHelper.matches(">=1.2-RC1", "1.2-alpha"));
 
+            assertTrue(ConstraintHelper.matches("<1.2-RC1", "1.2-alpha"));
+            assertTrue(!ConstraintHelper.matches("<1.2-RC1", "1.2"));
+
+            assertTrue(ConstraintHelper.matches("<=1.2-RC1", "1.2-alpha"));
+            assertTrue(ConstraintHelper.matches("<=1.2-RC1", "1.2-RC1"));
+            assertTrue(!ConstraintHelper.matches("<=1.2-RC1", "1.2"));
+
             assertTrue(ConstraintHelper.matches("^0.2", "0.2.5"));
             assertTrue(!ConstraintHelper.matches("^0.2", "0.3"));
             assertTrue(ConstraintHelper.matches("^1.2", "1.9.3"));
 
+            assertTrue(ConstraintHelper.matches("~0.2", "0.2.5"));
+            assertTrue(ConstraintHelper.matches("~0.2", "0.3"));
+            assertTrue(ConstraintHelper.matches("~1.2", "1.9.3"));
+            assertTrue(!ConstraintHelper.matches("~1.9.3", "1.10"));
+
             assertTrue(ConstraintHelper.matches("^1.2 !1.5", "1.4"));
             assertTrue(!ConstraintHelper.matches("^1.2 !1.5", "1.5"));
+            assertTrue(ConstraintHelper.matches("^1.2 !1.5 || ~3.2", "1.6"));
+            assertTrue(ConstraintHelper.matches("^1.2 !1.5 || ~3.2", "3.5.2"));
         } catch (MalformedVersionException e) {
             fail("Check VersionHelper: " + e.getMessage());
         }

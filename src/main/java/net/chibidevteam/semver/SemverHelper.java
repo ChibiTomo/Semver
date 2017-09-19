@@ -32,12 +32,14 @@ public final class SemverHelper {
         return serializeVersion(major, minor, patch, null);
     }
 
-    public static String serializeVersion(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
+    public static String serializeVersion(Integer major, Integer minor, Integer patch, String preRelease,
+            String... meta) {
         return serializeVersion(major, minor, patch, preRelease, Arrays.asList(meta));
     }
 
-    public static String serializeVersion(Integer major, Integer minor, Integer patch, String preRelease, List<String> meta) {
-        return Serializer.serialize(major, minor, patch, preRelease, meta);
+    public static String serializeVersion(Integer major, Integer minor, Integer patch, String preRelease,
+            List<String> meta) {
+        return Serializer.serializeVersion(major, minor, patch, preRelease, meta);
     }
 
     public static Version deserializeVersion(String str) throws MalformedVersionException {

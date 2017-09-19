@@ -3,12 +3,10 @@ package net.chibidevteam.semver.comparision;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Value;
 import net.chibidevteam.semver.Version;
 
-@ToString
-@EqualsAndHashCode
+@Value
 public class Constraint {
 
     private ConstraintSign   constraintSign;
@@ -18,6 +16,8 @@ public class Constraint {
     private List<Constraint> ors  = new ArrayList<>();
 
     public Constraint() {
+        this.constraintSign = null;
+        this.version = null;
     }
 
     public Constraint(ConstraintSign constraintSign, Version version) {
@@ -77,11 +77,11 @@ public class Constraint {
             }
             return v.compareTo(version) >= 0 && partA == partB;
         } else if (ConstraintSign.NEXT_SIGNIFICANT.equals(constraintSign)) {
-            Integer partA = v.getMajor();
-            Integer partB = version.getMajor();
-            if (v.getPatch() == null) {
-                partA = v.getMinor();
-                partB = version.getMinor();
+            Integer partA = v.getMinor();
+            Integer partB = version.getMinor();
+            if (version.getPatch() == null) {
+                partA = v.getMajor();
+                partB = version.getMajor();
             }
             return v.compareTo(version) >= 0 && partA == partB;
         }

@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.chibidevteam.semver.Version;
 import net.chibidevteam.semver.SemverHelper;
 import net.chibidevteam.semver.VersionPart;
-import net.chibidevteam.semver.comparision.Constraint;
-import net.chibidevteam.semver.comparision.ConstraintSign;
+import net.chibidevteam.semver.constraint.Constraint;
+import net.chibidevteam.semver.constraint.ConstraintSign;
 import net.chibidevteam.semver.exceptions.MalformedVersionException;
 
 @Slf4j

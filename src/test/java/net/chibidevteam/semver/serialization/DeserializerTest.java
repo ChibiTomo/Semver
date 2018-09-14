@@ -6,8 +6,8 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import net.chibidevteam.semver.Version;
-import net.chibidevteam.semver.comparision.Constraint;
-import net.chibidevteam.semver.comparision.ConstraintSign;
+import net.chibidevteam.semver.constraint.Constraint;
+import net.chibidevteam.semver.constraint.ConstraintSign;
 import net.chibidevteam.semver.exceptions.MalformedVersionException;
 
 public class DeserializerTest {

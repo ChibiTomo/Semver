@@ -12,7 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import net.chibidevteam.semver.Version;
-import net.chibidevteam.semver.comparision.Constraint;
+import net.chibidevteam.semver.constraint.Constraint;
 
 public class Serializer {
 

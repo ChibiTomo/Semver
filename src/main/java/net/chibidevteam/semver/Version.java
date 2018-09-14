@@ -20,7 +20,7 @@ public class Version implements Comparable<Version> {
     private List<String> meta;
 
     public Version(Integer major, Integer minor, Integer patch, String preRelease, String... meta) {
-        this(major, minor, patch, preRelease, meta != null && meta.length > 0 ? Arrays.asList(meta) : null);
+        this(major, minor, patch, preRelease, meta.length > 0 ? Arrays.asList(meta) : null);
     }
 
     public Version(Integer major, Integer minor, Integer patch, String preRelease, List<String> meta) {
@@ -29,6 +29,10 @@ public class Version implements Comparable<Version> {
         this.patch = patch;
         this.preRelease = preRelease;
         this.meta = meta;
+
+        // TODO: Add verification to never accept version with missing preceding parts
+        // - null major but not null minor and/or patch
+        // - null minor but not null patch
     }
 
     @Override
@@ -48,7 +52,6 @@ public class Version implements Comparable<Version> {
         if (preRelease == null || v.preRelease == null) {
             return STRING_COMPARATOR.compare(preRelease, v.preRelease);
         }
-        return STRING_COMPARATOR.compare(StringUtils.stripAccents(preRelease).toLowerCase(),
-                StringUtils.stripAccents(v.preRelease).toLowerCase());
+        return STRING_COMPARATOR.compare(StringUtils.stripAccents(preRelease).toLowerCase(), StringUtils.stripAccents(v.preRelease).toLowerCase());
     }
 }

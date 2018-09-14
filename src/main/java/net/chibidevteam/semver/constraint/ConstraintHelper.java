@@ -1,4 +1,4 @@
-package net.chibidevteam.semver.comparision;
+package net.chibidevteam.semver.constraint;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,4 +1,4 @@
-package net.chibidevteam.semver.comparision;
+package net.chibidevteam.semver.constraint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
